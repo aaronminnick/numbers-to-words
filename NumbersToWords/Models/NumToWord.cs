@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace NumbersToWords.Models
@@ -59,18 +60,55 @@ namespace NumbersToWords.Models
 
     }
 
-    private int[] NumberToChunks(int number)
+    public static int[] NumberToChunks(int number)
     {
-      return new int[1];
+      
+      string numberString = number.ToString();
+      int arraySize;
+      int offset = numberString.Length % 3;
+      if (offset == 0)
+      {
+        arraySize = numberString.Length / 3;
+      }
+      else
+      {
+        arraySize = numberString.Length / 3 + 1;
+      }
+      int[] result = new int[arraySize];
+
+      string chunk;
+      for (int i = 0; i < arraySize; i++)
+      {
+        if (i == 0 && offset != 0)
+        {
+          chunk = numberString.Substring(0, offset);
+        }
+        else if (offset != 0)
+        {
+          chunk = numberString.Substring((i-1)*3 + offset, 3);
+        }
+        else
+        {
+          chunk = numberString.Substring(i*3, 3);
+        }
+        result[i] = int.Parse(chunk);
+      }
+      return result;
     }
-    public string ChunkToWord(int chunk)
+
+    public static string ChunkToWord(int chunk)
     {
       return "";
     }
 
-    public string ChunkToWord(int chunk, string chunkName)
+    public static string ChunkToWord(int chunk, string chunkName)
     {
       return ChunkToWord(chunk) + " " + chunkName;
+    }
+
+    public static string Convert(int number)
+    {
+      return "";
     }
   }
 }
