@@ -30,5 +30,33 @@ namespace NumbersToWords.Tests
       CollectionAssert.AreEqual(expectedResultOne, actualResultOne);
       CollectionAssert.AreEqual(expectedResultTwo, actualResultTwo);
     }
+
+    [TestMethod]
+    public void ChunkToWord_ReturnsWordEquivalentOfNumber_String()
+    {
+      string testZero = "";
+      string testOne = "five";
+      string testTwo = "fifteen";
+      string testThree = "twenty seven";
+      string testFour = "five hundred one";
+      string testFive = "six hundred thirty four";
+      string testSix = "six hundred nineteen";
+
+      string resultZero = NumToWord.ChunkToWord(0);
+      string resultOne = NumToWord.ChunkToWord(5);
+      string resultTwo = NumToWord.ChunkToWord(15);
+      string resultThree = NumToWord.ChunkToWord(27);
+      string resultFour = NumToWord.ChunkToWord(501);
+      string resultFive = NumToWord.ChunkToWord(634);
+      string resultSix = NumToWord.ChunkToWord(619);
+
+      Assert.AreEqual(testZero, resultZero);
+      Assert.AreEqual(testOne, resultOne);
+      Assert.AreEqual(testTwo, resultTwo);
+      Assert.AreEqual(testThree, resultThree);
+      Assert.AreEqual(testFour, resultFour);
+      Assert.AreEqual(testFive, resultFive);
+      Assert.AreEqual(testSix, resultSix);
+    }
   }
 }

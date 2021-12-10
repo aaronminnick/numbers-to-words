@@ -1,57 +1,59 @@
 using System;
 using System.Collections.Generic;
 
+
 namespace NumbersToWords.Models
 {
   public class NumToWord
   {
-    private static Dictionary<int, string> _onesPlace = new Dictionary<int, string>()
+    private static Dictionary<char, string> _onesPlace = new Dictionary<char, string>()
     {
-      {1, "one"},
-      {2, "two"},
-      {3, "three"},
-      {4, "four"},
-      {5, "five"},
-      {6, "six"},
-      {7, "seven"},
-      {8, "eight"},
-      {9, "nine"}
+      {'0', ""},
+      {'1', "one"},
+      {'2', "two"},
+      {'3', "three"},
+      {'4', "four"},
+      {'5', "five"},
+      {'6', "six"},
+      {'7', "seven"},
+      {'8', "eight"},
+      {'9', "nine"}
     };
-    private static Dictionary<int, string> _teens = new Dictionary<int, string>()
+    private static Dictionary<char, string> _teens = new Dictionary<char, string>()
     {
-      {10, "ten"},
-      {11, "eleven"},
-      {12, "twelve"},
-      {13, "thirteen"},
-      {14, "fourteen"},
-      {15, "fifteen"},
-      {16, "sixteen"},
-      {17, "seventeen"},
-      {18, "eighteen"},
-      {19, "nineteen"}
+      {'0', "ten"},
+      {'1', "eleven"},
+      {'2', "twelve"},
+      {'3', "thirteen"},
+      {'4', "fourteen"},
+      {'5', "fifteen"},
+      {'6', "sixteen"},
+      {'7', "seventeen"},
+      {'8', "eighteen"},
+      {'9', "nineteen"}
     };
-    private static Dictionary<int, string> _tensPlace = new Dictionary<int, string>()
+    private static Dictionary<char, string> _tensPlace = new Dictionary<char, string>()
     {
-      {20, "twenty"},
-      {30, "thirty"},
-      {40, "forty"},
-      {50, "fifty"},
-      {60, "sixty"},
-      {70, "seventy"},
-      {80, "eighty"},
-      {90, "ninety"}
+      {'2', "twenty"},
+      {'3', "thirty"},
+      {'4', "forty"},
+      {'5', "fifty"},
+      {'6', "sixty"},
+      {'7', "seventy"},
+      {'8', "eighty"},
+      {'9', "ninety"}
     };
-    private static Dictionary<int, string> _hundredsPlace = new Dictionary<int, string>()
+    private static Dictionary<char, string> _hundredsPlace = new Dictionary<char, string>()
     {
-      {100, "one hundred"},
-      {200, "two hundred"},
-      {300, "three hundred"},
-      {400, "four hundred"},
-      {500, "five hundred"},
-      {600, "six hundred"},
-      {700, "seven hundred"},
-      {800, "eight hundred"},
-      {900, "nine hundred"}
+      {'1', "one hundred"},
+      {'2', "two hundred"},
+      {'3', "three hundred"},
+      {'4', "four hundred"},
+      {'5', "five hundred"},
+      {'6', "six hundred"},
+      {'7', "seven hundred"},
+      {'8', "eight hundred"},
+      {'9', "nine hundred"}
     };
     
   
@@ -62,7 +64,6 @@ namespace NumbersToWords.Models
 
     public static int[] NumberToChunks(int number)
     {
-      
       string numberString = number.ToString();
       int arraySize;
       int offset = numberString.Length % 3;
@@ -98,7 +99,49 @@ namespace NumbersToWords.Models
 
     public static string ChunkToWord(int chunk)
     {
-      return "";
+      string chunkString = chunk.ToString();
+      char onesDigit;
+      char tensDigit;
+      char hundredsDigit;
+      string output = "";
+
+      if (chunkString.Length == 3)
+      {
+        hundredsDigit = chunkString[0];
+        tensDigit = chunkString[1];
+        onesDigit = chunkString[2];
+        output += _hundredsPlace[hundredsDigit] + " ";
+        if (tensDigit == '0')
+        {
+          output += _onesPlace[onesDigit];
+        }
+        else if (tensDigit == '1')
+        {
+          output += _teens[onesDigit];
+        }
+        else
+        {
+          output += _tensPlace[tensDigit] + " " + _onesPlace[onesDigit];
+        }
+      }
+      else if (chunkString.Length == 2)
+      {
+        tensDigit = chunkString[0];
+        onesDigit = chunkString[1];
+        if (tensDigit == '1')
+        {
+          output += _teens[onesDigit];
+        }
+        else
+        {
+          output += _tensPlace[tensDigit] + " " + _onesPlace[onesDigit];
+        }
+      }
+      else
+      {
+        return _onesPlace[chunkString[0]];
+      }
+      return output;
     }
 
     public static string ChunkToWord(int chunk, string chunkName)
@@ -108,6 +151,11 @@ namespace NumbersToWords.Models
 
     public static string Convert(int number)
     {
+      int[] chunks = NumberToChunks(number);
+      foreach (int chunk in chunks)
+      {
+        ChunkToWord(chunk);
+      }
       return "";
     }
   }
